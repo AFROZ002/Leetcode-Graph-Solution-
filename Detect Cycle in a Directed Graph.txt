@@ -1,0 +1,47 @@
+import java.util.*;
+import java.util.Queue;
+
+public class Solution 
+{
+    public static Boolean isCyclic(int[][] edges, int v, int e)
+    {   
+        List<Integer>[] adj=makeAdj(edges,v);
+        boolean[] path=new boolean[v];
+        boolean[] vis=new boolean[v];
+        for(int i=0;i<v;++i){
+            if(!vis[i])
+               if(dfs(i,adj,vis,path)) return true;
+        }
+        return false;
+	}
+    public static boolean dfs(int node,List<Integer>[] adj,boolean[] vis, boolean[] path){
+        vis[node]=true;
+        path[node]=true;
+        for(int neighbor: adj[node]){
+            if(!vis[neighbor]){
+                vis[neighbor]=true;
+                path[neighbor]=true;
+                if(dfs(neighbor, adj, vis, path)) return true;
+            }
+            else if(path[neighbor]){
+                return true;
+            }  
+        } 
+        path[node]=false;
+        return false;
+    }
+    
+    public static List<Integer>[] makeAdj(int[][] edges,int V){
+        List<Integer>[] adj=new ArrayList[V];
+        for(int i=0;i<V;++i){
+            adj[i]=new ArrayList<>();
+        }
+        for(int[] edge: edges){
+            int u=edge[0];
+            int v=edge[1];
+            adj[u].add(v);
+        }
+        return adj;
+    }
+       
+}
