@@ -1,0 +1,22 @@
+class Solution:
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        graph = [[] for _ in range(n)]
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+            
+        visited = [False] * n
+        dist = [0] * n
+        
+        def dfs(node):
+            visited[node] = True
+            for nei in graph[node]:
+                if not visited[nei]:
+                    dist[nei] = dist[node] + 1
+                    dfs(nei)
+                    if hasApple[nei]:
+                        dist[node] += dist[nei]
+        
+        dfs(0)
+        
+        return sum(2 * (d-1) for d in dist if d > 0)
