@@ -1,0 +1,64 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.HashSet;
+import java.util.*;
+
+class Pair {
+    int first;
+    int second;
+    Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
+    }
+}
+
+public class Solution {
+    public static void bfs(int[][] grid, int[][] vis, int ro, int co, int n, int m, HashSet<ArrayList<String>> set) {
+        vis[ro][co] = 1;
+        Queue<Pair> q = new LinkedList<Pair>();
+        ArrayList<String> vec = new ArrayList<>();
+        q.add(new Pair(ro, co));
+
+        while (!q.isEmpty()) {
+            int row = q.peek().first;
+            int col = q.peek().second;
+            q.remove();
+
+            for (int delrow = -1; delrow < 2; ++delrow) {
+                for (int delcol = -1; delcol < 2; ++delcol) {
+                     if(Math.abs(delrow)!=Math.abs(delcol)) {
+                    int nrow = delrow + row;
+                    int ncol = delcol + col;
+                    if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && vis[nrow][ncol] == 0 && grid[nrow][ncol] == 1) {
+                        vis[nrow][ncol] = 1;
+                        q.add(new Pair(nrow, ncol));
+                        vec.add(toString(nrow - ro, ncol - co));
+                    }
+                }
+                }
+            }
+        }
+        set.add(vec);
+    }
+
+   public static int distinctIsland(int[][] arr, int n, int m) {
+    int[][] vis = new int[n][m];
+    HashSet<ArrayList<String>> set = new HashSet<>();
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            if (arr[i][j] == 1 && vis[i][j] == 0) {
+                bfs(arr, vis, i, j, n, m, set);
+            }
+        }
+    }
+    
+    
+    return set.size();
+}
+
+
+    public static String toString(int r, int c) {
+        return Integer.toString(r) + " " + Integer.toString(c);
+    }
+}
