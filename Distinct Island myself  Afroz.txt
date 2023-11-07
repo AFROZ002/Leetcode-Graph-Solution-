@@ -1,0 +1,48 @@
+// import java.util.*;
+//  class Pair {
+//     int first;
+//     int second;
+//     Pair(int first, int second) {
+//         this.first = first;
+//         this.second = second;
+//     }
+// }
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+public class Solution {
+    public static void dfs(int[][] arr, int[][] vis, ArrayList<String> l5, int n, int m, int row, int col, int ro, int co) {
+        vis[row][col] = 1;
+        l5.add(toString(row - ro, col - co));
+        for (int delrow = -1; delrow < 2; ++delrow) {
+            for (int delcol = -1; delcol < 2; ++delcol) {
+                if (Math.abs(delrow) != Math.abs(delcol)) {
+                    int nrow = delrow + row;
+                    int ncol = delcol + col;
+                    if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && vis[nrow][ncol] == 0 && arr[nrow][ncol] == 1) {
+                        dfs(arr, vis, l5, n, m, nrow, ncol, ro, co);
+                    }
+                }
+            }
+        }
+    }
+
+    public static int distinctIsland(int[][] arr, int n, int m) {
+        int[][] vis = new int[n][m];
+        HashSet<ArrayList<String>> set = new HashSet<>();
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (arr[i][j] == 1 && vis[i][j] == 0) {
+                    ArrayList<String> l5 = new ArrayList<>();
+                    dfs(arr, vis, l5, n, m, i, j, i, j);
+                    set.add(new ArrayList<>(l5));
+                }
+            }
+        }
+        return set.size();
+    }
+
+    public static String toString(int r, int c) {
+        return Integer.toString(r) + " " + Integer.toString(c);
+    }
