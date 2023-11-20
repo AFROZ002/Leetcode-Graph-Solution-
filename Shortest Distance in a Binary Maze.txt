@@ -1,0 +1,62 @@
+
+class Tuple {
+    int first;
+    int second;
+    int third;
+
+    Tuple(int first, int second, int third) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
+    }
+}
+
+class Solution {
+
+    int shortestPath(int[][] grid, int[] source, int[] destination) {
+
+        // Your code here
+        if (source[0] == destination[0] && source[1] == destination[1]) {
+            return 0;
+        }
+        Queue<Tuple> q = new LinkedList<>();
+        int n = grid.length;
+        int m = grid[0].length;
+        int[][] dis = new int[n][m];
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                dis[i][j] = (int) (1e9);
+
+            }
+        }
+
+        dis[source[0]][source[1]] = 0;
+        q.add(new Tuple(0, source[0], source[1]));
+        int[] delrow = {-1, 0, 1, 0};
+        int[] delcol = {0, 1, 0, -1};
+
+        while (!q.isEmpty()) {
+            Tuple it = q.peek();
+            q.remove();
+            int d = it.first;
+            int r = it.second;
+            int c = it.third;
+
+            for (int i = 0; i < 4; ++i) {
+                int nrow = r + delrow[i];
+                int ncol = c + delcol[i];
+
+                if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && grid[nrow][ncol] == 1 && d + 1 < dis[nrow][ncol]) {
+                    dis[nrow][ncol] = d + 1;
+                    if (nrow == destination[0] && ncol == destination[1])
+                        return dis[nrow][ncol];
+
+                    q.add(new Tuple(d + 1, nrow, ncol));
+                }
+            }
+        }
+
+        return -1;
+    }
+}
