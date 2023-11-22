@@ -6,8 +6,7 @@ class Pair {
     }
 }
 class Solution {
-    int minimumMultiplications(int[] arr, 
-    int start, int end) {
+    int minimumMultiplications(int[] arr, int start, int end) {
         if(start==end)
         return 0;
         Queue<Pair> q = new LinkedList<>(); 
