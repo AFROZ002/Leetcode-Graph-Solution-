@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Tuple{
     int distance;
     int row;
@@ -80,5 +82,19 @@ class Solution {
         }
         // If the destination is unreachable.
         return 0;
+    }
+}
+
+class tuf {
+
+    public static void main(String[] args) {
+       
+        int[][] heights={{1, 2, 2}, {3, 8, 2}, {5, 3, 5}};
+
+        Solution obj = new Solution();
+        int ans = obj.MinimumEffort(heights);
+        
+        System.out.print(ans);
+        System.out.println();
     }
 }
